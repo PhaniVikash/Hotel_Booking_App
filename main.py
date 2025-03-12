@@ -24,6 +24,9 @@ class Hotel:
                 return False
         except ValueError:
             print("Invalid Hotel ID !!")
+class Spa(Hotel):
+    def book_spa_pacakage(self):
+        pass
 
 class ReservationTicket:
     def __init__(self,customer_name,hotel_obj):
@@ -62,10 +65,29 @@ class SecureCards(CreditCard):
 
 
 
+class SpaTicket:
+    def __init__(self,customer_name,hotel_obj):
+        self.customer_name=customer_name
+        self.hotel=hotel_obj
+
+    def generate(self):
+        content = (f"""
+                    Thanks for Booking SPA Service\n
+                    Here are Your details : \n
+                    Your Name : {self.customer_name}\n
+                    Hotel Id : {self.hotel.hotel_id}\n
+                    Hotel Name : {self.hotel.name}\n
+                    City : {self.hotel.city} 
+                    Spa service : YES        
+                    """)
+        return content
+
+
 print(df)
 
 h_id = input("Enter the Hotel ID : ")
-hotel = Hotel(hotel_id=h_id)
+hotel = Spa(hotel_id=h_id)
+
 
 if hotel.available():
     credit_card = SecureCards(number="1234")
@@ -77,6 +99,14 @@ if hotel.available():
             name= input("Enter your Name  :  ")
             reservation_ticket=ReservationTicket(customer_name=name,hotel_obj=hotel)
             print(reservation_ticket.generate())
+            spa=input("Do you want to Book a SPA service ?  : ")
+            if spa =="yes":
+                hotel.book_spa_pacakage()
+                spa_ticket=SpaTicket(customer_name=name,hotel_obj=hotel)
+                print(spa_ticket.generate())
+
+            else:
+                pass
         else:
             print("Authentication Failed ")
 
